@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Stopwatch</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: blueviolet;
+    color: #fff;
+}
+
+.stopwatch {
+    font-size: 36px;
+    margin-top: 400px;
+    
+}
+
+button {
+    margin-top: 20px;
+    font-size: 16px;
+    background-color: blue;
+    color: #fff;
+    border-radius: 10px;
+    border-color: blueviolet;
+}
+
+    </style>
+</head>
+<body>
+    <div class="stopwatch">
+        <span id="minutes">00</span>:<span id="seconds">00</span>:<span id="milliseconds">000</span>
+    </div>
+    <button id="startButton">Start</button>
+    <button id="stopButton">Stop</button>
+    <button id="resetButton">Reset</button>
+    <script>
+        let stopwatchInterval;
+let milliseconds = 0;
+let seconds = 0;
+let minutes = 0;
+
+const millisecondsElement = document.getElementById("milliseconds");
+const secondsElement = document.getElementById("seconds");
+const minutesElement = document.getElementById("minutes");
+
+function updateStopwatch() {
+    milliseconds += 10;
+    if (milliseconds === 1000) {
+        milliseconds = 0;
+        seconds++;
+        if (seconds === 60) {
+            seconds = 0;
+            minutes++;
+        }
+    }
+
+    millisecondsElement.textContent = milliseconds < 100 ? (milliseconds < 10 ? `00${milliseconds}` : `0${milliseconds}`) : milliseconds;
+    secondsElement.textContent = seconds < 10 ? `0${seconds}` : seconds;
+    minutesElement.textContent = minutes < 10 ? `0${minutes}` : minutes;
+}
+
+document.getElementById("startButton").addEventListener("click", () => {
+    stopwatchInterval = setInterval(updateStopwatch, 10);
+});
+
+document.getElementById("stopButton").addEventListener("click", () => {
+    clearInterval(stopwatchInterval);
+});
+
+document.getElementById("resetButton").addEventListener("click", () => {
+    clearInterval(stopwatchInterval);
+    milliseconds = 0;
+    seconds = 0;
+    minutes = 0;
+    millisecondsElement.textContent = "000";
+    secondsElement.textContent = "00";
+    minutesElement.textContent = "00";
+});
+
+    </script>
+</body>
+</html>
